@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced BlackJack - Ultimate Casino Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header with stats and achievements -->
+        <header class="game-header">
+            <div class="logo">
+                <h1>🂡 Enhanced BlackJack 🂱</h1>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Chips:</span>
+                    <span id="chips-display" class="stat-value">$1000</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Wins:</span>
+                    <span id="wins-display" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Streak:</span>
+                    <span id="streak-display" class="stat-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main game area -->
+        <main class="game-table">
+            <!-- Dealer section -->
+            <section class="dealer-section">
+                <h2>Dealer</h2>
+                <div class="hand-info">
+                    <span id="dealer-score" class="score">Score: --</span>
+                </div>
+                <div id="dealer-cards" class="card-container dealer-cards"></div>
+            </section>
+
+            <!-- Game controls and info -->
+            <section class="game-center">
+                <div class="game-info">
+                    <div id="game-message" class="message">Place your bet to start!</div>
+                    <div id="round-result" class="result hidden"></div>
+                </div>
+                
+                <!-- Betting controls -->
+                <div class="betting-controls">
+                    <div class="bet-amount">
+                        <span>Current Bet: $<span id="current-bet">0</span></span>
+                    </div>
+                    <div class="chip-buttons">
+                        <button class="chip-btn chip-5" data-value="5">$5</button>
+                        <button class="chip-btn chip-25" data-value="25">$25</button>
+                        <button class="chip-btn chip-50" data-value="50">$50</button>
+                        <button class="chip-btn chip-100" data-value="100">$100</button>
+                        <button class="clear-bet-btn">Clear Bet</button>
+                    </div>
+                </div>
+
+                <!-- Game action buttons -->
+                <div class="game-controls">
+                    <button id="deal-btn" class="action-btn deal-btn">Deal Cards</button>
+                    <button id="hit-btn" class="action-btn hit-btn hidden">Hit</button>
+                    <button id="stand-btn" class="action-btn stand-btn hidden">Stand</button>
+                    <button id="double-btn" class="action-btn double-btn hidden">Double Down</button>
+                    <button id="new-game-btn" class="action-btn new-game-btn hidden">New Round</button>
+                </div>
+            </section>
+
+            <!-- Player section -->
+            <section class="player-section">
+                <h2>You</h2>
+                <div class="hand-info">
+                    <span id="player-score" class="score">Score: --</span>
+                </div>
+                <div id="player-cards" class="card-container player-cards"></div>
+            </section>
+        </main>
+
+        <!-- Achievements sidebar -->
+        <aside class="achievements-panel">
+            <h3>🏆 Achievements</h3>
+            <div id="achievements-list" class="achievements-list">
+                <!-- Achievements will be populated by JavaScript -->
+            </div>
+        </aside>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="card-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+PzrCkbVTJJSq2xtKqSsQW0NG8oRbf3i+wGt6o2bvf1DFACxBMDFQgvQNRDaR8EZf3k4PrqABfI++j7ACGOQNwHmzEJe9L6CvKCBOC9DeDy1G8yL7/n7F4oC" type="audio/wav">
+    </audio>
+    <audio id="chip-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+PzrCkbVTJJSq2xtKqSsQW0NG8oRbf3i+wGt6o2bvf1DFACxBMDFQgvQNRDaR8EZf3k4PrqABfI++j7ACGOQNwHmzEJe9L6CvKCBOC9DeDy1G8yL7/n7F4oC" type="audio/wav">
+    </audio>
+    <audio id="win-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+PzrCkbVTJJSq2xtKqSsQW0NG8oRbf3i+wGt6o2bvf1DFACxBMDFQgvQNRDaR8EZf3k4PrqABfI++j7ACGOQNwHmzEJe9L6CvKCBOC9DeDy1G8yL7/n7F4oC" type="audio/wav">
+    </audio>
+
+    <script src="game.js"></script>
+</body>
+</html>
